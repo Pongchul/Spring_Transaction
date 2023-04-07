@@ -1,6 +1,7 @@
 package hello.springtx.apply;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -14,6 +15,21 @@ public class InternalCallV1Test {
 
     @Autowired
     CallService callService;
+
+    @Test
+    void printProxy() {
+        log.info("callService class = {}", callService.getClass());
+    }
+
+    @Test
+    void internalCall() {
+        callService.internal();
+    }
+    @Test
+    void externalCall() {
+        callService.external();
+    }
+
     @TestConfiguration
     static class InternalCallV1TestConfig {
         @Bean
@@ -31,7 +47,7 @@ public class InternalCallV1Test {
         }
 
         @Transactional
-        public void  internal() {
+        public void internal() {
             log.info("call internal");
             printTxInfo();
         }
